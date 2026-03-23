@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Academy · CREST CPSA Mock Exam Engine</title>
+<meta name="description" content="Free CREST CPSA mock exam engine by Cyber Academy. 3 full 120-question exams harder than the real thing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════ LANDING ═══════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+  <div class="landing-inner">
+
+    <div class="brand-strip">
+      <div class="brand-icon">CA</div>
+      <div>
+        <div class="brand-name"><span>CYBER</span> ACADEMY</div>
+        <div class="brand-sub">mycyberacademy.co.uk</div>
+      </div>
+    </div>
+
+    <div class="eyebrow"><div class="eyebrow-dot"></div>CREST CPSA · Mock Examination Platform</div>
+
+    <h1 class="land-title">Train Harder<br>Than The <span class="hi">Real Exam.</span></h1>
+    <p class="land-sub">Three full 120-question exams built to be harder than the real CREST CPSA. Scenario-based questions, real tool output, and multi-step reasoning. Score ≥75% consistently here and you're ready to sit.</p>
+
+    <div class="exam-cards">
+
+      <div class="ecard featured" onclick="App.startExam(0)">
+        <div class="card-flag">Start Here</div>
+        <div class="card-num">EXAM · 01</div>
+        <div class="card-title">Windows, Unix &amp; Core Methodology</div>
+        <div class="card-desc">Domain recon, enumeration, passwords, r-services, SUID abuse, privilege escalation, patch management</div>
+        <div class="card-pills">
+          <span class="pill">120 questions</span>
+          <span class="pill">2 hours</span>
+          <span class="pill">Pass: 75%</span>
+        </div>
+      </div>
+
+      <div class="ecard" onclick="App.startExam(1)">
+        <div class="card-num">EXAM · 02</div>
+        <div class="card-title">Active Directory, Web App &amp; Exploitation</div>
+        <div class="card-desc">Kerberoasting, BloodHound, SQL injection, JWT, deserialization, lateral movement, MSSQL</div>
+        <div class="card-pills">
+          <span class="pill">120 questions</span>
+          <span class="pill">2 hours</span>
+          <span class="pill">Pass: 75%</span>
+        </div>
+      </div>
+
+      <div class="ecard" onclick="App.startExam(2)">
+        <div class="card-num">EXAM · 03</div>
+        <div class="card-title">Cloud, Wireless &amp; Comprehensive Review</div>
+        <div class="card-desc">AWS/Azure/GCP, WPA2, ICS/SCADA, containers, CREST practical breakout scenarios, full spectrum</div>
+        <div class="card-pills">
+          <span class="pill">120 questions</span>
+          <span class="pill">2 hours</span>
+          <span class="pill">Pass: 75%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-row">
+      <button class="btn-cta" onclick="App.startExam(0)">▶ &nbsp;Start Exam 1</button>
+      <div class="cta-note">
+        <strong>360 total questions across 3 exams</strong><br>
+        Free · No login required · Progress auto-saved · Works offline
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-num">360</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-lbl">Full Exams</div></div>
+      <div class="stat-item"><div class="stat-num">75%</div><div class="stat-lbl">Pass Mark</div></div>
+      <div class="stat-item"><div class="stat-num">10+</div><div class="stat-lbl">Domains</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════ EXAM UI ════════════════════════════════ -->
+<div id="screen-exam" class="screen">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="hd-logo" onclick="App.goHome()" style="cursor:pointer" title="Back to home">
+      <div class="hd-icon">CA</div>
+      <div>
+        <div class="hd-name"><span>CYBER</span> ACADEMY</div>
+        <div class="hd-sub" id="hd-exam-label">CREST CPSA · Mock Exam 1 of 3</div>
+      </div>
+    </div>
+    <div class="hd-right">
+      <div class="score-badge" id="hd-score">Score: —</div>
+      <div class="timer-w">
+        <div class="timer-dot" id="timer-dot"></div>
+        <span class="timer-val" id="timer-display">2:00:00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Exam tabs -->
+  <div class="etabs" id="exam-tabs">
+    <div class="etab" data-exam="0" onclick="App.switchExam(0)">Exam 1 — Windows &amp; Unix</div>
+    <div class="etab" data-exam="1" onclick="App.switchExam(1)">Exam 2 — AD &amp; Web App</div>
+    <div class="etab" data-exam="2" onclick="App.switchExam(2)">Exam 3 — Cloud &amp; Wireless</div>
+  </div>
+
+  <!-- 3-col layout -->
+  <div class="app-body">
+
+    <!-- LEFT: Navigator -->
+    <aside class="nav-panel">
+      <div class="nav-head">
+        <div class="nav-lbl">Question Navigator</div>
+        <div class="nav-stats">
+          <div class="nav-stat"><div class="ns-n g" id="stat-done">0</div><div class="ns-l">Done</div></div>
+          <div class="nav-stat"><div class="ns-n a" id="stat-flag">0</div><div class="ns-l">Flagged</div></div>
+          <div class="nav-stat"><div class="ns-n s" id="stat-left">120</div><div class="ns-l">Left</div></div>
+        </div>
+      </div>
+      <div class="nav-scroll" id="nav-scroll">
+        <!-- built by JS -->
+      </div>
+    </aside>
+
+    <!-- CENTRE: Question -->
+    <main class="q-area">
+
+      <div class="q-meta">
+        <div class="q-meta-l">
+          <span class="q-num">Q<span id="q-number">1</span> of 120</span>
+          <span class="tag tag-d" id="q-domain">—</span>
+          <span class="tag" id="q-difficulty">—</span>
+        </div>
+        <button class="flag-btn" id="flag-btn" onclick="App.toggleFlag()">⚑ &nbsp;Flag for Review</button>
+      </div>
+
+      <div class="q-scroll" id="q-scroll">
+        <p class="q-text" id="q-text">Loading question...</p>
+        <div id="q-code" class="code-block" style="display:none"></div>
+        <div class="options" id="q-options"></div>
+        <div id="q-explanation" style="display:none"></div>
+      </div>
+
+      <div class="nav-bar">
+        <div class="btn-g">
+          <button class="btn btn-ghost" onclick="App.navigate(-1)">← Prev</button>
+          <button class="btn btn-ghost" onclick="App.navigate(1)">Next →</button>
+        </div>
+        <div class="prog-w">
+          <span class="prog-lbl" id="prog-pct">0%</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <span class="prog-lbl" id="prog-label">0 / 120</span>
+        </div>
+        <div class="btn-g">
+          <button class="btn btn-exp" onclick="App.toggleExplanation()">💡 Explain</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="App.submitAndNext()">Submit &amp; Next →</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT: Info panel -->
+    <aside class="info-panel">
+
+      <div class="pass-strip" id="pass-strip">
+        <div class="pass-dot"></div>
+        <span id="pass-msg">Complete questions to see your score</span>
+      </div>
+
+      <div class="info-block">
+        <div class="info-lbl">Live Score</div>
+        <div class="ring-wrap">
+          <div class="ring-svg-w">
+            <svg class="ring-svg" width="88" height="88" viewBox="0 0 88 88">
+              <circle class="bgr" cx="44" cy="44" r="34"/>
+              <circle class="fgr" id="score-ring" cx="44" cy="44" r="34"/>
+            </svg>
+            <div class="ring-in">
+              <div class="ring-pct" id="ring-pct">—</div>
+              <div class="ring-sub">Score</div>
+            </div>
+          </div>
+          <div class="ring-stats">
+            <div class="rrow"><span class="rrow-l">Correct</span><span class="rrow-v g" id="rs-correct">0</span></div>
+            <div class="rrow"><span class="rrow-l">Incorrect</span><span class="rrow-v r" id="rs-wrong">0</span></div>
+            <div class="rrow"><span class="rrow-l">Remaining</span><span class="rrow-v a" id="rs-remain">120</span></div>
+            <div class="rrow"><span class="rrow-l">Pass mark</span><span class="rrow-v m">75%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-lbl">Domain Breakdown</div>
+        <div class="dom-bars" id="domain-bars">
+          <!-- built by JS -->
+        </div>
+      </div>
+
+      <div class="info-block" style="flex:1;overflow-y:auto">
+        <div class="info-lbl">Exam Tip</div>
+        <div class="tip-box" id="tip-box">Select an answer and click 💡 Explain to see a detailed explanation for each question.</div>
+      </div>
+
+    </aside>
+
+  </div><!-- /app-body -->
+
+</div><!-- /screen-exam -->
+
+<!-- ═══════════════════════════════ RESULTS ═══════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-inner">
+
+    <div class="brand-strip" style="margin-bottom:28px">
+      <div class="brand-icon">CA</div>
+      <div>
+        <div class="brand-name"><span>CYBER</span> ACADEMY</div>
+        <div class="brand-sub">CREST CPSA · Exam Results</div>
+      </div>
+    </div>
+
+    <div class="results-hero">
+      <div class="results-ring-w">
+        <svg class="ring-svg" width="140" height="140" viewBox="0 0 140 140">
+          <circle class="bgr" cx="70" cy="70" r="58" style="stroke-width:9"/>
+          <circle class="fgr" id="results-ring" cx="70" cy="70" r="58" style="stroke-width:9;stroke-dasharray:365;stroke-dashoffset:365"/>
+        </svg>
+        <div class="results-ring-in">
+          <div class="results-pct" id="results-pct">0%</div>
+          <div class="results-grade" id="results-grade">—</div>
+        </div>
+      </div>
+
+      <div class="results-summary">
+        <h2 class="results-title" id="results-title">Exam Complete</h2>
+        <p class="results-sub" id="results-sub">Here's your breakdown.</p>
+
+        <div class="results-stats">
+          <div class="rs-card g"><div class="rs-card-n" id="res-correct">0</div><div class="rs-card-l">Correct</div></div>
+          <div class="rs-card r"><div class="rs-card-n" id="res-wrong">0</div><div class="rs-card-l">Incorrect</div></div>
+          <div class="rs-card a"><div class="rs-card-n" id="res-skipped">0</div><div class="rs-card-l">Skipped</div></div>
+          <div class="rs-card o"><div class="rs-card-n" id="res-time">—</div><div class="rs-card-l">Time Used</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-domains">
+      <h3 class="results-section-title">Performance by Domain</h3>
+      <div id="results-domain-bars" class="results-domain-grid"></div>
+    </div>
+
+    <div class="results-weak" id="results-weak-section">
+      <h3 class="results-section-title">Questions to Review</h3>
+      <div id="results-weak-list" class="weak-list"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn-cta" onclick="App.retakeExam()">↺ &nbsp;Retake This Exam</button>
+      <button class="btn-secondary" onclick="App.goHome()">← Back to All Exams</button>
+      <button class="btn-secondary" onclick="App.reviewAnswers()">📋 Review All Answers</button>
+    </div>
+
+  </div>
+</div><!-- /screen-results -->
+
+<!-- ═══════════════════════════ REVIEW SCREEN ═══════════════════════════ -->
+<div id="screen-review" class="screen">
+  <div class="review-header">
+    <div class="hd-logo" onclick="App.showResults()" style="cursor:pointer">
+      <div class="hd-icon">CA</div>
+      <div>
+        <div class="hd-name"><span>CYBER</span> ACADEMY</div>
+        <div class="hd-sub">Answer Review</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="App.showResults()">← Back to Results</button>
+  </div>
+  <div class="review-body" id="review-body"></div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- Data files -->
+<script src="data/exam1.js"></script>
+<script src="data/exam2.js"></script>
+<script src="data/exam3.js"></script>
+<!-- App -->
+<script src="js/app.js"></script>
+</body>
+</html>
